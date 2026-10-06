@@ -26,21 +26,24 @@ function LotusMark({ className = "" }) {
 }
 
 function FireworksBackdrop() {
-  const options = useMemo(() => ({
-    preset: "fireworks",
-    fullScreen: { enable: false },
-    background: { color: "transparent" },
-    fpsLimit: 45,
-    detectRetina: true,
-    fireworks: {
-      brightness: 78,
-      colors: ["#ff9b24", "#ffd45c", "#fff2c4", "#ee7350", "#ef9c43"],
-      intensity: 4,
-      life: { min: 1.1, max: 1.7 },
-      traces: 7,
-      explosion: { min: 18, max: 30 },
-    },
-  }), []);
+  const options = useMemo(
+    () => ({
+      preset: "fireworks",
+      fullScreen: { enable: false },
+      background: { color: "transparent" },
+      fpsLimit: 45,
+      detectRetina: true,
+      fireworks: {
+        brightness: 78,
+        colors: ["#ff9b24", "#ffd45c", "#fff2c4", "#ee7350", "#ef9c43"],
+        intensity: 4,
+        life: { min: 1.1, max: 1.7 },
+        traces: 7,
+        explosion: { min: 18, max: 30 },
+      },
+    }),
+    [],
+  );
 
   return (
     <ParticlesProvider init={initFireworks}>
@@ -140,7 +143,7 @@ function SideThoranam({ side, visible }) {
             </g>
           );
         })}
-      <g className="toran-bell" transform="translate(50 748)">
+        <g className="toran-bell" transform="translate(50 748)">
           <path d="M0-15v-7M-11-8h22l-3 16H-8Z" fill={`url(#bell-${side})`} />
           <path d="M-14 8h28l-5 6h-18Z" fill={`url(#bell-${side})`} />
           <circle cx="0" cy="20" r="3" />
@@ -157,8 +160,18 @@ function App() {
 
   useEffect(() => {
     const timings = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ? [[100, "initials"], [500, "exit"], [550, "garlands"], [650, "names"]]
-      : [[780, "initials"], [3400, "exit"], [4120, "garlands"], [5620, "names"]];
+      ? [
+          [100, "initials"],
+          [500, "exit"],
+          [550, "garlands"],
+          [650, "names"],
+        ]
+      : [
+          [780, "initials"],
+          [3400, "exit"],
+          [4120, "garlands"],
+          [5620, "names"],
+        ];
     const timers = timings.map(([delay, phase]) => window.setTimeout(() => setOpeningPhase(phase), delay));
     return () => timers.forEach(window.clearTimeout);
   }, []);
@@ -167,237 +180,251 @@ function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <>
-    {!["garlands", "names"].includes(openingPhase) && (
-      <div className={`wedding-intro${openingPhase === "exit" ? " is-leaving" : ""}`} role="status" aria-live="polite">
-        <FireworksBackdrop />
-        <div className={`intro-emblem${["initials", "exit"].includes(openingPhase) ? " is-shown" : ""}`}>
-          <span className="intro-kicker">A CELEBRATION OF LOVE</span>
-          <p>S <i>&amp;</i> N</p>
-          <span className="intro-date">21 · 05 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
-        </div>
-        <span className="intro-bottom-note">WITH THE BLESSINGS OF OUR FAMILIES</span>
-      </div>
-    )}
-    <main>
-      <FallingFlowers />
-      <section className="hero" id="home">
-        <div className="hero-grain" aria-hidden="true" />
-        <div className="temple-arch" aria-hidden="true">
-          <span />
-          <span />
-        </div>
-        <div className="side-thoranams">
-          <SideThoranam side="left" visible={["garlands", "names"].includes(openingPhase)} />
-          <SideThoranam side="right" visible={["garlands", "names"].includes(openingPhase)} />
-        </div>
-        <header className="topbar">
-          <a className="monogram" href="#home" aria-label="Srihari and Nivetha home">
-            S <i>&amp;</i> N
-          </a>
-          <div className="topbar-date">
-            21 · 05 · 2026 <span>—</span> DINDIGUL
+      <>
+        {!["garlands", "names"].includes(openingPhase) && (
+          <div className={`wedding-intro${openingPhase === "exit" ? " is-leaving" : ""}`} role="status" aria-live="polite">
+            <FireworksBackdrop />
+            <div className={`intro-emblem${["initials", "exit"].includes(openingPhase) ? " is-shown" : ""}`}>
+              <span className="intro-kicker">A CELEBRATION OF LOVE</span>
+              <p>
+                S <i>&amp;</i> N
+              </p>
+              <span className="intro-date">21 · 05 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
+            </div>
+            <span className="intro-bottom-note">WITH THE BLESSINGS OF OUR FAMILIES</span>
           </div>
-          <a className="topbar-link" href="#invitation-details">
-            THE INVITATION <span>↘</span>
-          </a>
-        </header>
-
-        <div className={`hero-copy${openingPhase === "names" ? " is-revealed" : ""}`}>
-          <p className="eyebrow">
-            <span className="eyebrow-rule" />
-            With the blessings of our families
-            <span className="eyebrow-rule" />
-          </p>
-          <p className="hero-tagline">A traditional South Indian celebration</p>
-          <h1>
-            <span>Srihari</span>
-            <span className="ampersand">&amp;</span>
-            <span>Nivetha</span>
-          </h1>
-          <p className="hero-subtitle">invite you to share in the joy of their wedding</p>
-          <button className="details-button" onClick={goToDetails}>
-            VIEW THE INVITATION <span>↓</span>
-          </button>
-          <p className="hero-location">A traditional South Indian wedding in Dindigul</p>
-        </div>
-
-        <div className="hero-bottom">
-          <span>SCROLL TO EXPLORE</span>
-          <i />
-        </div>
-        <div className="corner-ornament corner-left" aria-hidden="true">
-          ❧
-        </div>
-        <div className="corner-ornament corner-right" aria-hidden="true">
-          ❧
-        </div>
-      </section>
-
-      <section className="invitation section-shell" id="invitation-details">
-        <motion.div className="section-kicker" {...revealUp}>
-          <LotusMark />
-          <span>WITH JOY IN OUR HEARTS</span>
-          <LotusMark />
-        </motion.div>
-        <motion.p className="invitation-copy" {...revealUp} transition={{ ...revealUp.transition, delay: 0.08 }}>Together with our families, we invite you to bless and celebrate the marriage of</motion.p>
-        <motion.h2 {...revealUp} transition={{ ...revealUp.transition, delay: 0.14 }}>
-          Srihari <em>&amp;</em> Nivetha
-        </motion.h2>
-        <div className="divider">
-          <span>✦</span>
-        </div>
-        <motion.div className="date-card" {...revealUp} transition={{ ...revealUp.transition, delay: 0.2 }}>
-          <div className="date-ornament" aria-hidden="true">
-            ❋
-          </div>
-          <p className="date-kicker">THE AUSPICIOUS DAY</p>
-          <p className="weekday">THURSDAY</p>
-          <div className={`date-display ${dateRevealed ? "revealed" : ""}`}>
-            <span className="day">21</span>
-            <span className="month-year">
-              MAY
-              <br />
-              <b>2026</b>
-            </span>
-          </div>
-          <button className="reveal-button" onClick={() => setDateRevealed((value) => !value)} aria-expanded={dateRevealed}>
-            {dateRevealed ? "✦ MUHURTHAM" : "✦ TAP TO REVEAL"}
-          </button>
-          <p className={`muhurtham ${dateRevealed ? "visible" : ""}`}>7:45 AM – 8:15 AM</p>
-          <p className="date-note">A morning filled with blessings, music &amp; celebration</p>
-        </motion.div>
-      </section>
-
-      <section className="engagement section-shell" id="engagement">
-        <motion.div className="engagement-heading" {...revealUp}>
-          <p className="date-kicker">A LITTLE GLIMPSE OF FOREVER</p>
-          <h2>Our engagement <em>moments</em></h2>
-          <p className="engagement-caption">A few frames from the beginning of our forever.</p>
-        </motion.div>
-        <div className="engagement-grid">
-          {[
-            { number: "01", shape: "photo-tall" },
-            { number: "02", shape: "photo-square" },
-            { number: "03", shape: "photo-square" },
-            { number: "04", shape: "photo-wide" },
-          ].map(({ number, shape }, index) => (
-            <motion.figure
-              className={`engagement-photo ${shape}`}
-              key={number}
-              initial={{ opacity: 0, y: 32, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.18 }}
-              transition={{ duration: 0.72, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div className="engagement-photo-space">
-                <span className="photo-sparkle">✦</span>
-                <span className="photo-initials">S <i>&amp;</i> N</span>
-                <span className="photo-add-label">ADD ENGAGEMENT PHOTO</span>
+        )}
+        <main>
+          <FallingFlowers />
+          <section className="hero" id="home">
+            <div className="hero-grain" aria-hidden="true" />
+            <div className="temple-arch" aria-hidden="true">
+              <span />
+              <span />
+            </div>
+            <div className="side-thoranams">
+              <SideThoranam side="left" visible={["garlands", "names"].includes(openingPhase)} />
+              <SideThoranam side="right" visible={["garlands", "names"].includes(openingPhase)} />
+            </div>
+            <header className="topbar">
+              <a className="monogram" href="#home" aria-label="Srihari and Nivetha home">
+                S <i>&amp;</i> N
+              </a>
+              <div className="topbar-date">
+                21 · 05 · 2026 <span>—</span> DINDIGUL
               </div>
-              <figcaption>ENGAGEMENT MOMENT {number}</figcaption>
-            </motion.figure>
-          ))}
-        </div>
-      </section>
+              <a className="topbar-link" href="#invitation-details">
+                THE INVITATION <span>↘</span>
+              </a>
+            </header>
 
-      <section className="celebration">
-        <motion.div className="celebration-image" initial={{ opacity: 0, x: -46 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-          <img className="temple-photo" src="/dindigul-fort-temple.jpg" alt="The historic temple atop Dindigul Fort" />
-          <div className="photo-caption">
-            <span>DINDIGUL FORT TEMPLE</span>
-            <b>Where tradition meets forever</b>
-            <small>Photo: <a href="https://commons.wikimedia.org/wiki/File:Temple_atop_the_Dindigul_Fort.jpg" target="_blank" rel="noreferrer">SriniGS / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></small>
-          </div>
-        </motion.div>
-        <motion.div className="celebration-copy" initial={{ opacity: 0, x: 46 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}>
-          <p className="eyebrow dark">
-            <span className="eyebrow-rule" />A DAY TO REMEMBER
-          </p>
-          <h2>
-            Rooted in
-            <br />
-            <em>tradition.</em>
-          </h2>
-          <p>In a town shaped by temple bells and timeless rituals, we begin our new journey surrounded by the people we love.</p>
-          <div className="ritual-list">
-            <div>
-              <span className="ritual-icon">✺</span>
-              <span>
-                <b>THE MUHURTHAM</b>
-                <small>Auspicious wedding rites</small>
-              </span>
-              <span className="ritual-time">7:45 AM</span>
+            <div className={`hero-copy${openingPhase === "names" ? " is-revealed" : ""}`}>
+              <p className="eyebrow">
+                <span className="eyebrow-rule" />
+                With the blessings of our families
+                <span className="eyebrow-rule" />
+              </p>
+              <p className="hero-tagline">A traditional South Indian celebration</p>
+              <h1>
+                <span>Srihari</span>
+                <span className="ampersand">&amp;</span>
+                <span>Nivetha</span>
+              </h1>
+              <p className="hero-subtitle">invite you to share in the joy of their wedding</p>
+              <button className="details-button" onClick={goToDetails}>
+                VIEW THE INVITATION <span>↓</span>
+              </button>
+              <p className="hero-location">A traditional South Indian wedding in Dindigul</p>
             </div>
-            <div>
-              <span className="ritual-icon">⌖</span>
-              <span>
-                <b>THE GATHERING</b>
-                <small>Family, friends &amp; blessings</small>
-              </span>
-              <span className="ritual-time">DINDIGUL</span>
+
+            <div className="hero-bottom">
+              <span>SCROLL TO EXPLORE</span>
+              <i />
             </div>
-          </div>
-          <a className="text-link" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
-            FIND YOUR WAY <span>↗</span>
-          </a>
-        </motion.div>
-      </section>
+            <div className="corner-ornament corner-left" aria-hidden="true">
+              ❧
+            </div>
+            <div className="corner-ornament corner-right" aria-hidden="true">
+              ❧
+            </div>
+          </section>
 
-      <section className="venue section-shell" id="venue">
-        <motion.div className="venue-content" {...revealUp}>
-        <div className="venue-motif" aria-hidden="true">
-          <LotusMark />
-        </div>
-        <p className="date-kicker">THE WEDDING VENUE</p>
-        <h2>
-          S.S. Grand
-          <br />
-          <em>Mahal</em>
-        </h2>
-        <div className="divider">
-          <span>✦</span>
-        </div>
-        <p className="venue-address">
-          Siluvathur Road (Airport),
-          <br />
-          Balakrishnapuram, Dindigul – 624005
-        </p>
-        <a className="directions-button" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
-          GET DIRECTIONS <span>↗</span>
-        </a>
-        <p className="venue-blessing">We look forward to celebrating with you</p>
-        </motion.div>
-      </section>
+          <section className="invitation section-shell" id="invitation-details">
+            <motion.div className="section-kicker" {...revealUp}>
+              <LotusMark />
+              <span>WITH JOY IN OUR HEARTS</span>
+              <LotusMark />
+            </motion.div>
+            <motion.p className="invitation-copy" {...revealUp} transition={{ ...revealUp.transition, delay: 0.08 }}>
+              Together with our families, we invite you to bless and celebrate the marriage of
+            </motion.p>
+            <motion.h2 {...revealUp} transition={{ ...revealUp.transition, delay: 0.14 }}>
+              Srihari <em>&amp;</em> Nivetha
+            </motion.h2>
+            <div className="divider">
+              <span>✦</span>
+            </div>
+            <motion.div className="date-card" {...revealUp} transition={{ ...revealUp.transition, delay: 0.2 }}>
+              <div className="date-ornament" aria-hidden="true">
+                ❋
+              </div>
+              <p className="date-kicker">THE AUSPICIOUS DAY</p>
+              <p className="weekday">SUNDAY</p>
+              <div className={`date-display ${dateRevealed ? "revealed" : ""}`}>
+                <span className="day">15</span>
+                <span className="month-year">
+                  NOVEMBER
+                  <br />
+                  <b>2026</b>
+                </span>
+              </div>
+              <button className="reveal-button" onClick={() => setDateRevealed((value) => !value)} aria-expanded={dateRevealed}>
+                {dateRevealed ? "✦ MUHURTHAM" : "✦ TAP TO REVEAL"}
+              </button>
+              <p className={`muhurtham ${dateRevealed ? "visible" : ""}`}>7:45 AM – 8:15 AM</p>
+              <p className="date-note">A morning filled with blessings, music &amp; celebration</p>
+            </motion.div>
+          </section>
 
-      <section className="gift-registry section-shell" id="gifts">
-        <motion.div className="gift-content" {...revealUp}>
-          <span className="gift-flower" aria-hidden="true">✿</span>
-          <p className="date-kicker">A TOKEN OF YOUR LOVE</p>
-          <h2>Gifts from <em>the heart</em></h2>
-          <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
-          <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
-            VISIT OUR GIFT REGISTRY <span>↗</span>
-          </a>
-        </motion.div>
-      </section>
+          <section className="engagement section-shell" id="engagement">
+            <motion.div className="engagement-heading" {...revealUp}>
+              <p className="date-kicker">A LITTLE GLIMPSE OF FOREVER</p>
+              <h2>
+                Our engagement <em>moments</em>
+              </h2>
+              <p className="engagement-caption">A few frames from the beginning of our forever.</p>
+            </motion.div>
+            <div className="engagement-grid">
+              {[
+                { number: "01", shape: "photo-tall" },
+                { number: "02", shape: "photo-square" },
+                { number: "03", shape: "photo-square" },
+                { number: "04", shape: "photo-wide" },
+              ].map(({ number, shape }, index) => (
+                <motion.figure className={`engagement-photo ${shape}`} key={number} initial={{ opacity: 0, y: 32, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.72, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
+                  <div className="engagement-photo-space">
+                    <span className="photo-sparkle">✦</span>
+                    <span className="photo-initials">
+                      S <i>&amp;</i> N
+                    </span>
+                    <span className="photo-add-label">ADD ENGAGEMENT PHOTO</span>
+                  </div>
+                  <figcaption>ENGAGEMENT MOMENT {number}</figcaption>
+                </motion.figure>
+              ))}
+            </div>
+          </section>
 
-      <motion.footer className="footer" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-        <div className="footer-flower" aria-hidden="true">
-          ✿
-        </div>
-        <p className="footer-monogram">
-          S <i>&amp;</i> N
-        </p>
-        <p className="footer-names">
-          SRIHARI <span>·</span> NIVETHA
-        </p>
-        <p className="footer-date">21 · 05 · 2026 &nbsp; — &nbsp; DINDIGUL</p>
-        <span className="footer-rule" />
-        <p className="footer-thanks">With love &amp; gratitude</p>
-      </motion.footer>
-    </main>
-    </>
+          <section className="celebration">
+            <motion.div className="celebration-image" initial={{ opacity: 0, x: -46 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+              <img className="temple-photo" src="/dindigul-fort-temple.jpg" alt="The historic temple atop Dindigul Fort" />
+              <div className="photo-caption">
+                <span>DINDIGUL FORT TEMPLE</span>
+                <b>Where tradition meets forever</b>
+                <small>
+                  Photo:{" "}
+                  <a href="https://commons.wikimedia.org/wiki/File:Temple_atop_the_Dindigul_Fort.jpg" target="_blank" rel="noreferrer">
+                    SriniGS / Wikimedia Commons
+                  </a>{" "}
+                  ·{" "}
+                  <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+                    CC BY-SA 4.0
+                  </a>
+                </small>
+              </div>
+            </motion.div>
+            <motion.div className="celebration-copy" initial={{ opacity: 0, x: 46 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}>
+              <p className="eyebrow dark">
+                <span className="eyebrow-rule" />A DAY TO REMEMBER
+              </p>
+              <h2>
+                Rooted in
+                <br />
+                <em>tradition.</em>
+              </h2>
+              <p>In a town shaped by temple bells and timeless rituals, we begin our new journey surrounded by the people we love.</p>
+              <div className="ritual-list">
+                <div>
+                  <span className="ritual-icon">✺</span>
+                  <span>
+                    <b>THE MUHURTHAM</b>
+                    <small>Auspicious wedding rites</small>
+                  </span>
+                  <span className="ritual-time">7:45 AM</span>
+                </div>
+                <div>
+                  <span className="ritual-icon">⌖</span>
+                  <span>
+                    <b>THE GATHERING</b>
+                    <small>Family, friends &amp; blessings</small>
+                  </span>
+                  <span className="ritual-time">DINDIGUL</span>
+                </div>
+              </div>
+              <a className="text-link" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
+                FIND YOUR WAY <span>↗</span>
+              </a>
+            </motion.div>
+          </section>
+
+          <section className="venue section-shell" id="venue">
+            <motion.div className="venue-content" {...revealUp}>
+              <div className="venue-motif" aria-hidden="true">
+                <LotusMark />
+              </div>
+              <p className="date-kicker">THE WEDDING VENUE</p>
+              <h2>
+                S.S. Grand
+                <br />
+                <em>Mahal</em>
+              </h2>
+              <div className="divider">
+                <span>✦</span>
+              </div>
+              <p className="venue-address">
+                Siluvathur Road (Airport),
+                <br />
+                Balakrishnapuram, Dindigul – 624005
+              </p>
+              <a className="directions-button" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
+                GET DIRECTIONS <span>↗</span>
+              </a>
+              <p className="venue-blessing">We look forward to celebrating with you</p>
+            </motion.div>
+          </section>
+
+          <section className="gift-registry section-shell" id="gifts">
+            <motion.div className="gift-content" {...revealUp}>
+              <span className="gift-flower" aria-hidden="true">
+                ✿
+              </span>
+              <p className="date-kicker">A TOKEN OF YOUR LOVE</p>
+              <h2>
+                Gifts from <em>the heart</em>
+              </h2>
+              <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
+              <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
+                VISIT OUR GIFT REGISTRY <span>↗</span>
+              </a>
+            </motion.div>
+          </section>
+
+          <motion.footer className="footer" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+            <div className="footer-flower" aria-hidden="true">
+              ✿
+            </div>
+            <p className="footer-monogram">
+              S <i>&amp;</i> N
+            </p>
+            <p className="footer-names">
+              SRIHARI <span>·</span> NIVETHA
+            </p>
+            <p className="footer-date">21 · 05 · 2026 &nbsp; — &nbsp; DINDIGUL</p>
+            <span className="footer-rule" />
+            <p className="footer-thanks">With love &amp; gratitude</p>
+          </motion.footer>
+        </main>
+      </>
     </MotionConfig>
   );
 }
