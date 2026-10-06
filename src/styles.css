@@ -377,7 +377,7 @@ button {
 .hero-blessing {
   position: absolute;
   z-index: 3;
-  top: 14%;
+  top: 100px;
   left: 50%;
   width: min(92%, 700px);
   margin: 0;
