@@ -25,6 +25,20 @@ function LotusMark({ className = "" }) {
   );
 }
 
+function ArrowIcon({ direction = "up-right", className = "" }) {
+  const paths = {
+    up: "M8 13V3m0 0L4 7m4-4 4 4",
+    down: "M8 3v10m0 0 4-4m-4 4L4 9",
+    "up-right": "M4 12 12 4M6 4h6v6",
+    "down-right": "M4 4 12 12m0-6v6H6",
+  };
+  return (
+    <svg className={`arrow-icon ${className}`} viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d={paths[direction]} />
+    </svg>
+  );
+}
+
 function FireworksBackdrop() {
   const options = useMemo(
     () => ({
@@ -156,7 +170,42 @@ function SideThoranam({ side, visible }) {
 
 function App() {
   const [dateRevealed, setDateRevealed] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const musicRef = useRef(null);
   const [openingPhase, setOpeningPhase] = useState("crackers");
+
+  useEffect(() => () => {
+    musicRef.current?.pause();
+  }, []);
+
+  const startBackgroundMusic = async () => {
+    try {
+      const audio = musicRef.current;
+      if (!audio) return false;
+      audio.volume = 0.24;
+      await audio.play();
+      setMusicPlaying(true);
+      return true;
+    } catch {
+      setMusicPlaying(false);
+      return false;
+    }
+  };
+
+  const revealDate = () => {
+    if (dateRevealed) return;
+    setDateRevealed(true);
+    void startBackgroundMusic();
+  };
+
+  const toggleBackgroundMusic = async () => {
+    if (musicPlaying) {
+      musicRef.current?.pause();
+      setMusicPlaying(false);
+      return;
+    }
+    await startBackgroundMusic();
+  };
 
   useEffect(() => {
     const timings = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -181,6 +230,7 @@ function App() {
   return (
     <MotionConfig reducedMotion="user">
       <>
+        <audio ref={musicRef} src="/wedding-music.mp3" preload="none" loop />
         {!["garlands", "names"].includes(openingPhase) && (
           <div className={`wedding-intro${openingPhase === "exit" ? " is-leaving" : ""}`} role="status" aria-live="polite">
             <FireworksBackdrop />
@@ -214,7 +264,7 @@ function App() {
                 21 · 05 · 2026 <span>—</span> DINDIGUL
               </div>
               <a className="topbar-link" href="#invitation-details">
-                THE INVITATION <span>↘</span>
+                THE INVITATION <span><ArrowIcon direction="down-right" /></span>
               </a>
             </header>
 
@@ -232,7 +282,7 @@ function App() {
               </h1>
               <p className="hero-subtitle">invite you to share in the joy of their wedding</p>
               <button className="details-button" onClick={goToDetails}>
-                VIEW THE INVITATION <span>↓</span>
+                VIEW THE INVITATION <span><ArrowIcon direction="down" /></span>
               </button>
               <p className="hero-location">A traditional South Indian wedding in Dindigul</p>
             </div>
@@ -271,17 +321,28 @@ function App() {
               <p className="date-kicker">THE AUSPICIOUS DAY</p>
               <p className="weekday">SUNDAY</p>
               <div className={`date-display ${dateRevealed ? "revealed" : ""}`}>
-                <span className="day">15</span>
+                {dateRevealed ? (
+                  <span className="day">15</span>
+                ) : (
+                  <button className="date-reveal-control" type="button" onClick={revealDate} aria-label="Tap to reveal the wedding date">
+                    <span className="reveal-star" aria-hidden="true">✦</span>
+                    <span className="reveal-label">TAP TO REVEAL</span>
+                  </button>
+                )}
                 <span className="month-year">
                   NOVEMBER
                   <br />
                   <b>2026</b>
                 </span>
               </div>
-              <button className="reveal-button" onClick={() => setDateRevealed((value) => !value)} aria-expanded={dateRevealed}>
-                {dateRevealed ? "✦ MUHURTHAM" : "✦ TAP TO REVEAL"}
-              </button>
-              <p className={`muhurtham ${dateRevealed ? "visible" : ""}`}>7:45 AM – 8:15 AM</p>
+              {dateRevealed && (
+                <>
+                  <p className="muhurtham visible" aria-live="polite">7:45 AM – 8:15 AM</p>
+                  <button className="music-control" type="button" onClick={toggleBackgroundMusic} aria-pressed={musicPlaying}>
+                    {musicPlaying ? "♫ MUSIC ON · TAP TO PAUSE" : "♫ PLAY BACKGROUND MUSIC"}
+                  </button>
+                </>
+              )}
               <p className="date-note">A morning filled with blessings, music &amp; celebration</p>
             </motion.div>
           </section>
@@ -362,7 +423,7 @@ function App() {
                 </div>
               </div>
               <a className="text-link" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
-                FIND YOUR WAY <span>↗</span>
+                FIND YOUR WAY <ArrowIcon />
               </a>
             </motion.div>
           </section>
@@ -387,7 +448,7 @@ function App() {
                 Balakrishnapuram, Dindigul – 624005
               </p>
               <a className="directions-button" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
-                GET DIRECTIONS <span>↗</span>
+                GET DIRECTIONS <span><ArrowIcon /></span>
               </a>
               <p className="venue-blessing">We look forward to celebrating with you</p>
             </motion.div>
@@ -404,7 +465,7 @@ function App() {
               </h2>
               <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
               <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
-                VISIT OUR GIFT REGISTRY <span>↗</span>
+                VISIT OUR GIFT REGISTRY <span><ArrowIcon /></span>
               </a>
             </motion.div>
           </section>
