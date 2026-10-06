@@ -174,9 +174,12 @@ function App() {
   const musicRef = useRef(null);
   const [openingPhase, setOpeningPhase] = useState("crackers");
 
-  useEffect(() => () => {
-    musicRef.current?.pause();
-  }, []);
+  useEffect(
+    () => () => {
+      musicRef.current?.pause();
+    },
+    [],
+  );
 
   const startBackgroundMusic = async () => {
     try {
@@ -239,7 +242,7 @@ function App() {
               <p>
                 S <i>&amp;</i> N
               </p>
-              <span className="intro-date">21 · 05 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
+              <span className="intro-date">15 · 11 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
             </div>
             <span className="intro-bottom-note">WITH THE BLESSINGS OF OUR FAMILIES</span>
           </div>
@@ -264,16 +267,20 @@ function App() {
                 21 · 05 · 2026 <span>—</span> DINDIGUL
               </div>
               <a className="topbar-link" href="#invitation-details">
-                THE INVITATION <span><ArrowIcon direction="down-right" /></span>
+                THE INVITATION{" "}
+                <span>
+                  <ArrowIcon direction="down-right" />
+                </span>
               </a>
             </header>
 
+            <p className={`eyebrow hero-blessing${openingPhase === "names" ? " is-revealed" : ""}`}>
+              <span className="eyebrow-rule" />
+              With the blessings of our families
+              <span className="eyebrow-rule" />
+            </p>
+
             <div className={`hero-copy${openingPhase === "names" ? " is-revealed" : ""}`}>
-              <p className="eyebrow">
-                <span className="eyebrow-rule" />
-                With the blessings of our families
-                <span className="eyebrow-rule" />
-              </p>
               <p className="hero-tagline">A traditional South Indian celebration</p>
               <h1>
                 <span>Srihari</span>
@@ -282,7 +289,10 @@ function App() {
               </h1>
               <p className="hero-subtitle">invite you to share in the joy of their wedding</p>
               <button className="details-button" onClick={goToDetails}>
-                VIEW THE INVITATION <span><ArrowIcon direction="down" /></span>
+                VIEW THE INVITATION{" "}
+                <span>
+                  <ArrowIcon direction="down" />
+                </span>
               </button>
               <p className="hero-location">A traditional South Indian wedding in Dindigul</p>
             </div>
@@ -325,7 +335,9 @@ function App() {
                   <span className="day">15</span>
                 ) : (
                   <button className="date-reveal-control" type="button" onClick={revealDate} aria-label="Tap to reveal the wedding date">
-                    <span className="reveal-star" aria-hidden="true">✦</span>
+                    <span className="reveal-star" aria-hidden="true">
+                      ✦
+                    </span>
                     <span className="reveal-label">TAP TO REVEAL</span>
                   </button>
                 )}
@@ -337,7 +349,9 @@ function App() {
               </div>
               {dateRevealed && (
                 <>
-                  <p className="muhurtham visible" aria-live="polite">7:45 AM – 8:15 AM</p>
+                  <p className="muhurtham visible" aria-live="polite">
+                    7:45 AM – 8:15 AM
+                  </p>
                   <button className="music-control" type="button" onClick={toggleBackgroundMusic} aria-pressed={musicPlaying}>
                     {musicPlaying ? "♫ MUSIC ON · TAP TO PAUSE" : "♫ PLAY BACKGROUND MUSIC"}
                   </button>
@@ -448,7 +462,10 @@ function App() {
                 Balakrishnapuram, Dindigul – 624005
               </p>
               <a className="directions-button" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
-                GET DIRECTIONS <span><ArrowIcon /></span>
+                GET DIRECTIONS{" "}
+                <span>
+                  <ArrowIcon />
+                </span>
               </a>
               <p className="venue-blessing">We look forward to celebrating with you</p>
             </motion.div>
@@ -465,7 +482,10 @@ function App() {
               </h2>
               <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
               <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
-                VISIT OUR GIFT REGISTRY <span><ArrowIcon /></span>
+                VISIT OUR GIFT REGISTRY{" "}
+                <span>
+                  <ArrowIcon />
+                </span>
               </a>
             </motion.div>
           </section>
@@ -480,7 +500,7 @@ function App() {
             <p className="footer-names">
               SRIHARI <span>·</span> NIVETHA
             </p>
-            <p className="footer-date">21 · 05 · 2026 &nbsp; — &nbsp; DINDIGUL</p>
+            <p className="footer-date">15 · 11 · 2026 &nbsp; — &nbsp; DINDIGUL</p>
             <span className="footer-rule" />
             <p className="footer-thanks">With love &amp; gratitude</p>
           </motion.footer>
