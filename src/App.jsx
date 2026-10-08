@@ -240,7 +240,7 @@ function App() {
             <div className={`intro-emblem${["initials", "exit"].includes(openingPhase) ? " is-shown" : ""}`}>
               <span className="intro-kicker">A CELEBRATION OF LOVE</span>
               <p>
-                S <i>&amp;</i> N
+                N <i>&amp;</i> S
               </p>
               <span className="intro-date">15 · 11 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
             </div>
@@ -260,9 +260,6 @@ function App() {
               <SideThoranam side="right" visible={["garlands", "names"].includes(openingPhase)} />
             </div>
             <header className="topbar">
-              <a className="monogram" href="#home" aria-label="Srihari and Nivetha home">
-                S <i>&amp;</i> N
-              </a>
               <div className="topbar-date">
                 21 · 05 · 2026 <span>—</span> DINDIGUL
               </div>
@@ -283,9 +280,9 @@ function App() {
             <div className={`hero-copy${openingPhase === "names" ? " is-revealed" : ""}`}>
               <p className="hero-tagline">A traditional South Indian celebration</p>
               <h1>
-                <span>Srihari</span>
-                <span className="ampersand">&amp;</span>
                 <span>Nivetha</span>
+                <span className="ampersand">&amp;</span>
+                <span>Srihari</span>
               </h1>
               <p className="hero-subtitle">invite you to share in the joy of their wedding</p>
               <button className="details-button" onClick={goToDetails}>
@@ -319,7 +316,7 @@ function App() {
               Together with our families, we invite you to bless and celebrate the marriage of
             </motion.p>
             <motion.h2 {...revealUp} transition={{ ...revealUp.transition, delay: 0.14 }}>
-              Srihari <em>&amp;</em> Nivetha
+              Nivetha <em>&amp;</em> Srihari
             </motion.h2>
             <div className="divider">
               <span>✦</span>
@@ -350,7 +347,7 @@ function App() {
               {dateRevealed && (
                 <>
                   <p className="muhurtham visible" aria-live="polite">
-                    7:45 AM – 8:15 AM
+                    9:00 AM – 10:30 AM
                   </p>
                   <button className="music-control" type="button" onClick={toggleBackgroundMusic} aria-pressed={musicPlaying}>
                     {musicPlaying ? "♫ MUSIC ON · TAP TO PAUSE" : "♫ PLAY BACKGROUND MUSIC"}
@@ -358,6 +355,10 @@ function App() {
                 </>
               )}
               <p className="date-note">A morning filled with blessings, music &amp; celebration</p>
+              <div className="reception-date">
+                <span>RECEPTION</span>
+                <p>SATURDAY <b>14 · 11 · 2026</b></p>
+              </div>
             </motion.div>
           </section>
 
@@ -371,20 +372,16 @@ function App() {
             </motion.div>
             <div className="engagement-grid">
               {[
-                { number: "01", shape: "photo-tall" },
-                { number: "02", shape: "photo-square" },
-                { number: "03", shape: "photo-square" },
-                { number: "04", shape: "photo-wide" },
-              ].map(({ number, shape }, index) => (
+                { number: "01", shape: "photo-tall", image: "/engagement-01.jpg", alt: "Nivetha and Srihari sharing a quiet moment together", caption: "A QUIET MOMENT" },
+                { number: "02", shape: "photo-square", image: "/engagement-02.jpg", alt: "Close-up of Nivetha and Srihari's hands and engagement rings", caption: "A PROMISE FOREVER" },
+                { number: "03", shape: "photo-square", image: "/engagement-03.jpg", alt: "Srihari placing a ring on Nivetha's hand as family members watch", caption: "THE RING CEREMONY" },
+                { number: "04", shape: "photo-wide", image: "/engagement-04.jpg", alt: "Nivetha and Srihari walking hand in hand beside a temple pond", caption: "A WALK TOGETHER" },
+              ].map(({ number, shape, image, alt, caption }, index) => (
                 <motion.figure className={`engagement-photo ${shape}`} key={number} initial={{ opacity: 0, y: 32, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.72, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
                   <div className="engagement-photo-space">
-                    <span className="photo-sparkle">✦</span>
-                    <span className="photo-initials">
-                      S <i>&amp;</i> N
-                    </span>
-                    <span className="photo-add-label">ADD ENGAGEMENT PHOTO</span>
+                    <img className="engagement-real-photo" src={image} alt={alt} loading="lazy" decoding="async" />
                   </div>
-                  <figcaption>ENGAGEMENT MOMENT {number}</figcaption>
+                  <figcaption><span>ENGAGEMENT MOMENT {number}</span><b>{caption}</b></figcaption>
                 </motion.figure>
               ))}
             </div>
@@ -418,26 +415,24 @@ function App() {
                 <em>tradition.</em>
               </h2>
               <p>In a town shaped by temple bells and timeless rituals, we begin our new journey surrounded by the people we love.</p>
-              <div className="ritual-list">
-                <div>
-                  <span className="ritual-icon">✺</span>
-                  <span>
-                    <b>THE MUHURTHAM</b>
-                    <small>Auspicious wedding rites</small>
-                  </span>
-                  <span className="ritual-time">7:45 AM</span>
-                </div>
-                <div>
-                  <span className="ritual-icon">⌖</span>
-                  <span>
-                    <b>THE GATHERING</b>
-                    <small>Family, friends &amp; blessings</small>
-                  </span>
-                  <span className="ritual-time">DINDIGUL</span>
-                </div>
-              </div>
-              <a className="text-link" href="https://maps.app.goo.gl/rKzAwcmqKN9P5jzDA" target="_blank" rel="noreferrer">
-                FIND YOUR WAY <ArrowIcon />
+            </motion.div>
+          </section>
+
+          <section className="gift-registry section-shell" id="gifts">
+            <motion.div className="gift-content" {...revealUp}>
+              <span className="gift-flower" aria-hidden="true">
+                ✿
+              </span>
+              <p className="date-kicker">A TOKEN OF YOUR LOVE</p>
+              <h2>
+                Gifts from <em>the heart</em>
+              </h2>
+              <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
+              <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
+                VISIT OUR GIFT REGISTRY{" "}
+                <span>
+                  <ArrowIcon />
+                </span>
               </a>
             </motion.div>
           </section>
@@ -471,34 +466,15 @@ function App() {
             </motion.div>
           </section>
 
-          <section className="gift-registry section-shell" id="gifts">
-            <motion.div className="gift-content" {...revealUp}>
-              <span className="gift-flower" aria-hidden="true">
-                ✿
-              </span>
-              <p className="date-kicker">A TOKEN OF YOUR LOVE</p>
-              <h2>
-                Gifts from <em>the heart</em>
-              </h2>
-              <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
-              <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
-                VISIT OUR GIFT REGISTRY{" "}
-                <span>
-                  <ArrowIcon />
-                </span>
-              </a>
-            </motion.div>
-          </section>
-
           <motion.footer className="footer" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
             <div className="footer-flower" aria-hidden="true">
               ✿
             </div>
             <p className="footer-monogram">
-              S <i>&amp;</i> N
+              N <i>&amp;</i> S
             </p>
             <p className="footer-names">
-              SRIHARI <span>·</span> NIVETHA
+              NIVETHA <span>·</span> SRIHARI
             </p>
             <p className="footer-date">15 · 11 · 2026 &nbsp; — &nbsp; DINDIGUL</p>
             <span className="footer-rule" />
