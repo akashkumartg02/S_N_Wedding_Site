@@ -171,6 +171,7 @@ function SideThoranam({ side, visible }) {
 function App() {
   const [dateRevealed, setDateRevealed] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [previewPhoto, setPreviewPhoto] = useState(null);
   const musicRef = useRef(null);
   const [openingPhase, setOpeningPhase] = useState("crackers");
 
@@ -180,6 +181,15 @@ function App() {
     },
     [],
   );
+
+  useEffect(() => {
+    if (!previewPhoto) return undefined;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setPreviewPhoto(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [previewPhoto]);
 
   const startBackgroundMusic = async () => {
     try {
@@ -378,13 +388,25 @@ function App() {
                 { number: "04", shape: "photo-wide", image: "/engagement-04.jpg", alt: "Nivetha and Srihari walking hand in hand beside a temple pond", caption: "A WALK TOGETHER" },
               ].map(({ number, shape, image, alt, caption }, index) => (
                 <motion.figure className={`engagement-photo ${shape}`} key={number} initial={{ opacity: 0, y: 32, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.72, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
-                  <div className="engagement-photo-space">
-                    <img className="engagement-real-photo" src={image} alt={alt} loading="lazy" decoding="async" />
-                  </div>
-                  <figcaption><span>ENGAGEMENT MOMENT {number}</span><b>{caption}</b></figcaption>
+                  <button className="engagement-preview-trigger" type="button" onClick={() => setPreviewPhoto({ image, alt, caption, number })} aria-label={`Preview photo: ${caption}`}>
+                    <span className="engagement-photo-space">
+                      <img className="engagement-real-photo" src={image} alt="" loading="lazy" decoding="async" />
+                    </span>
+                    <span className="engagement-photo-caption"><span>ENGAGEMENT MOMENT {number}</span><b>{caption}</b></span>
+                    <span className="preview-hint" aria-hidden="true">VIEW PHOTO ↗</span>
+                  </button>
                 </motion.figure>
               ))}
             </div>
+            {previewPhoto && (
+              <div className="photo-lightbox" role="presentation" onClick={() => setPreviewPhoto(null)}>
+                <div className="photo-lightbox-panel" role="dialog" aria-modal="true" aria-label={`Engagement photo: ${previewPhoto.caption}`} onClick={(event) => event.stopPropagation()}>
+                  <button className="photo-lightbox-close" type="button" onClick={() => setPreviewPhoto(null)} aria-label="Close photo preview">×</button>
+                  <img src={previewPhoto.image} alt={previewPhoto.alt} />
+                  <p>{previewPhoto.caption}</p>
+                </div>
+              </div>
+            )}
           </section>
 
           <section className="celebration">
