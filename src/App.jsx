@@ -15,6 +15,65 @@ const revealUp = {
   transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] },
 };
 
+const dindigulPlaces = [
+  {
+    id: "fort",
+    eyebrow: "A LANDMARK OF DINDIGUL",
+    title: "Dindigul Fort",
+    description: "A hilltop landmark that gives our wedding town its timeless silhouette.",
+    image: "/dindigul-fort-temple.jpg",
+    imageAlt: "The historic temple atop Dindigul Fort",
+    caption: "Where tradition meets forever",
+    credit: true,
+  },
+  {
+    id: "biryani",
+    eyebrow: "A TASTE OF DINDIGUL",
+    title: "Siva Biryani",
+    description: "A biryani stop to add to your time in Dindigul.",
+    location: "https://share.google/bu0zEFhCVQCMWCF7",
+    caption: "A flavourful local stop",
+  },
+  {
+    id: "parotta",
+    eyebrow: "A TASTE OF DINDIGUL",
+    title: "Parotta Shop",
+    description: "Make room for a parotta stop while you explore the city.",
+    location: "https://share.google/mEQTfjy0z5t19wFpH",
+    caption: "A classic comfort bite",
+  },
+];
+
+function PlaceIllustration({ type }) {
+  return (
+    <div className={`place-illustration place-illustration-${type}`} aria-hidden="true">
+      <span className="place-illustration-halo" />
+      {type === "biryani" ? (
+        <svg viewBox="0 0 500 620">
+          <ellipse cx="250" cy="432" rx="176" ry="45" fill="#6a3329" opacity=".18" />
+          <ellipse cx="250" cy="394" rx="172" ry="76" fill="#f5e4c4" />
+          <ellipse cx="250" cy="377" rx="143" ry="52" fill="#a44d2d" />
+          <path d="M111 366c26-70 78-108 139-108s113 38 139 108c-35 42-86 63-139 63s-104-21-139-63Z" fill="#d8943f" />
+          <path d="M137 350c28-33 53-45 85-61m-60 96 84-104m-30 126 82-112m-24 105 76-79m-150-31 37 63m33-70 38 63m-130-38 37 56m118-36 28 41" stroke="#f7d99b" strokeWidth="9" strokeLinecap="round" />
+          <path d="M194 301c13-20 25-19 31 1-11 16-23 16-31-1Zm91 14c12-18 24-17 30 2-10 14-22 14-30-2Zm-58 54c13-19 25-18 31 1-11 15-23 15-31-1Z" fill="#557546" />
+          <circle cx="274" cy="333" r="11" fill="#9e3f2c" />
+          <path d="M213 221c-15-20 14-31 3-53m49 52c-15-20 14-31 3-53m42 54c-15-20 14-31 3-53" fill="none" stroke="#fff0d2" strokeWidth="5" strokeLinecap="round" opacity=".75" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 500 620">
+          <ellipse cx="250" cy="432" rx="176" ry="45" fill="#6a3329" opacity=".18" />
+          <ellipse cx="250" cy="397" rx="174" ry="78" fill="#f5e4c4" />
+          <ellipse cx="250" cy="381" rx="143" ry="53" fill="#c18440" />
+          <path d="M116 367c28-55 83-83 134-83s106 28 134 83c-32 35-82 55-134 55s-102-20-134-55Z" fill="#e7b765" />
+          <path d="M149 362c21-34 59-53 101-53s80 19 101 53m-182 10c25-28 51-40 81-40s56 12 81 40m-149 11c23-17 44-25 68-25s45 8 68 25" fill="none" stroke="#f8dfa5" strokeWidth="12" strokeLinecap="round" />
+          <path d="M180 305c24-28 57-42 93-42m-73 72c27-22 56-33 88-32m-101 55c25-15 48-22 74-22m74 16c-18-25-41-39-68-44" fill="none" stroke="#b16b34" strokeWidth="5" strokeLinecap="round" />
+          <path d="M144 335c16-16 33-18 49-5m146-16c-15-15-32-17-48-4" fill="none" stroke="#65814d" strokeWidth="8" strokeLinecap="round" />
+        </svg>
+      )}
+    </div>
+  );
+}
+
 function LotusMark({ className = "" }) {
   return (
     <svg className={className} viewBox="0 0 64 48" aria-hidden="true">
@@ -172,8 +231,10 @@ function App() {
   const [dateRevealed, setDateRevealed] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [previewPhoto, setPreviewPhoto] = useState(null);
+  const [placeIndex, setPlaceIndex] = useState(0);
   const musicRef = useRef(null);
   const [openingPhase, setOpeningPhase] = useState("crackers");
+  const activePlace = dindigulPlaces[placeIndex];
 
   useEffect(
     () => () => {
@@ -366,8 +427,9 @@ function App() {
               )}
               <p className="date-note">A morning filled with blessings, music &amp; celebration</p>
               <div className="reception-date">
-                <span>RECEPTION</span>
+                <span>RECEPTION · JOIN US IN THE EVENING</span>
                 <p>SATURDAY <b>14 · 11 · 2026</b></p>
+                <p className="reception-time">6:00–9:00 PM</p>
               </div>
             </motion.div>
           </section>
@@ -409,34 +471,51 @@ function App() {
             )}
           </section>
 
-          <section className="celebration">
-            <motion.div className="celebration-image" initial={{ opacity: 0, x: -46 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-              <img className="temple-photo" src="/dindigul-fort-temple.jpg" alt="The historic temple atop Dindigul Fort" />
+          <section className="celebration" id="dindigul">
+            <motion.div key={`image-${activePlace.id}`} className={`celebration-image place-slide place-slide-${activePlace.id}`} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}>
+              {activePlace.image ? <img className="temple-photo" src={activePlace.image} alt={activePlace.imageAlt} /> : <PlaceIllustration type={activePlace.id} />}
               <div className="photo-caption">
-                <span>DINDIGUL FORT TEMPLE</span>
-                <b>Where tradition meets forever</b>
-                <small>
-                  Photo:{" "}
-                  <a href="https://commons.wikimedia.org/wiki/File:Temple_atop_the_Dindigul_Fort.jpg" target="_blank" rel="noreferrer">
-                    SriniGS / Wikimedia Commons
-                  </a>{" "}
-                  ·{" "}
-                  <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
-                    CC BY-SA 4.0
-                  </a>
-                </small>
+                <span>{activePlace.eyebrow}</span>
+                <b>{activePlace.caption}</b>
+                {activePlace.credit && (
+                  <small>
+                    Photo:{" "}
+                    <a href="https://commons.wikimedia.org/wiki/File:Temple_atop_the_Dindigul_Fort.jpg" target="_blank" rel="noreferrer">
+                      SriniGS / Wikimedia Commons
+                    </a>{" "}
+                    ·{" "}
+                    <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+                      CC BY-SA 4.0
+                    </a>
+                  </small>
+                )}
               </div>
             </motion.div>
-            <motion.div className="celebration-copy" initial={{ opacity: 0, x: 46 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}>
+            <motion.div key={`copy-${activePlace.id}`} className="celebration-copy" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}>
               <p className="eyebrow dark">
-                <span className="eyebrow-rule" />A DAY TO REMEMBER
+                <span className="eyebrow-rule" />OUR DINDIGUL FAVOURITES
               </p>
               <h2>
-                Rooted in
+                {activePlace.title.split(" ")[0]}
                 <br />
-                <em>tradition.</em>
+                <em>{activePlace.title.split(" ").slice(1).join(" ") || "tradition."}</em>
               </h2>
-              <p>In a town shaped by temple bells and timeless rituals, we begin our new journey surrounded by the people we love.</p>
+              <p>{activePlace.description}</p>
+              {activePlace.location && (
+                <a className="place-location-link" href={activePlace.location} target="_blank" rel="noreferrer">
+                  OPEN LOCATION <span aria-hidden="true">↗</span>
+                </a>
+              )}
+              <div className="place-carousel-controls" aria-label="Dindigul highlights">
+                <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + dindigulPlaces.length - 1) % dindigulPlaces.length)} aria-label="Previous place">‹</button>
+                <div className="place-carousel-dots" role="group" aria-label="Choose a place">
+                  {dindigulPlaces.map((place, index) => (
+                    <button key={place.id} type="button" className={`place-carousel-dot${index === placeIndex ? " is-active" : ""}`} onClick={() => setPlaceIndex(index)} aria-label={`Show ${place.title}`} aria-pressed={index === placeIndex} />
+                  ))}
+                </div>
+                <span className="place-carousel-count">{String(placeIndex + 1).padStart(2, "0")} / {String(dindigulPlaces.length).padStart(2, "0")}</span>
+                <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + 1) % dindigulPlaces.length)} aria-label="Next place">›</button>
+              </div>
             </motion.div>
           </section>
 
@@ -503,6 +582,9 @@ function App() {
             <p className="footer-thanks">With love &amp; gratitude</p>
           </motion.footer>
         </main>
+        <a className="registry-float" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
+          GIFT REGISTRY <span aria-hidden="true"><ArrowIcon /></span>
+        </a>
       </>
     </MotionConfig>
   );

@@ -131,9 +131,9 @@ button {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background: linear-gradient(180deg, rgba(248, 239, 222, 0.22) 0%, rgba(248, 240, 225, 0.3) 58%, rgba(248, 240, 225, 0.38) 100%), url("/engagement-hero.jpg");
+  background: linear-gradient(180deg, rgba(248, 239, 222, 0.3) 0%, rgba(248, 240, 225, 0.38) 58%, rgba(248, 240, 225, 0.42) 100%), url("/hero-opening.jpg");
   background-size: cover;
-  background-position: center top;
+  background-position: center 52%;
   border-bottom: 1px solid rgba(120, 76, 44, 0.2);
 }
 .hero::before {
@@ -142,7 +142,7 @@ button {
   z-index: 0;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 49%, rgba(249, 239, 219, 0.64) 0%, rgba(249, 239, 219, 0.35) 34%, rgba(249, 239, 219, 0.06) 72%);
+  background: radial-gradient(ellipse at 50% 49%, rgba(249, 239, 219, 0.42) 0%, rgba(249, 239, 219, 0.25) 34%, rgba(249, 239, 219, 0.08) 72%);
 }
 .hero-grain {
   position: absolute;
@@ -785,6 +785,14 @@ h2 {
   font-size: 9px;
   letter-spacing: 0.14em;
 }
+.reception-date p.reception-time {
+  display: block;
+  margin-top: 5px;
+  color: #81562d;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
 .reception-date b {
   color: #582d2a;
   font-weight: 600;
@@ -1040,6 +1048,33 @@ h2 {
   overflow: hidden;
   background: #d1b48a;
 }
+.place-slide-biryani {
+  background: radial-gradient(ellipse at 50% 38%, #f8e8c8 0%, #d6a86e 55%, #8c4b36 100%);
+}
+.place-slide-parotta {
+  background: radial-gradient(ellipse at 50% 38%, #f4e5ca 0%, #d5b27e 55%, #704236 100%);
+}
+.place-illustration {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.place-illustration-halo {
+  position: absolute;
+  width: min(70%, 440px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 243, 215, 0.48);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(255, 243, 215, 0.08), 0 0 0 45px rgba(255, 243, 215, 0.06);
+}
+.place-illustration svg {
+  position: relative;
+  width: min(78%, 460px);
+  height: 82%;
+  filter: drop-shadow(0 20px 24px rgba(62, 31, 22, 0.2));
+}
 .temple-photo {
   position: absolute;
   inset: 0;
@@ -1115,6 +1150,71 @@ h2 {
     italic 19px/1.5 "Cormorant Garamond",
     serif;
   margin: 25px 0 28px;
+}
+.place-location-link {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border: 1px solid #9d7544;
+  color: #67372d;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.place-location-link:hover {
+  color: #fff4df;
+  background: #6b292b;
+}
+.place-location-link span {
+  color: #a67a36;
+  font-size: 14px;
+}
+.place-carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 34px;
+}
+.place-carousel-arrow {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(127, 87, 48, 0.45);
+  border-radius: 50%;
+  color: #63372d;
+  background: transparent;
+  font: 24px/1 "Cormorant Garamond", serif;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.place-carousel-arrow:hover {
+  color: #fff3df;
+  background: #6b292b;
+}
+.place-carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.place-carousel-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #bda77f;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.place-carousel-dot.is-active {
+  width: 23px;
+  background: #7a3330;
+}
+.place-carousel-count {
+  color: #96744c;
+  font-size: 8px;
+  letter-spacing: 0.16em;
 }
 .ritual-list {
   border-top: 1px solid #9e7a4f55;
@@ -1292,6 +1392,40 @@ h2 {
 .registry-button span {
   color: #f0c871;
   font-size: 13px;
+}
+.registry-float {
+  position: fixed;
+  z-index: 17;
+  right: 24px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 19px;
+  border: 1px solid rgba(255, 235, 194, 0.68);
+  border-radius: 999px;
+  color: #fff4de;
+  background: #6b292b;
+  box-shadow: 0 8px 26px rgba(58, 31, 24, 0.26);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.registry-float:hover {
+  transform: translateY(-3px);
+  background: #512126;
+}
+.registry-float span {
+  display: inline-flex;
+  color: #f0c871;
+}
+.registry-float .arrow-icon {
+  width: 13px;
+  height: 13px;
 }
 .footer {
   position: relative;
@@ -1537,6 +1671,16 @@ h2 {
   }
   .celebration-copy {
     padding: 68px 30px 76px;
+  }
+  .place-carousel-controls {
+    margin-top: 26px;
+  }
+  .registry-float {
+    right: 14px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    min-height: 44px;
+    padding: 0 15px;
+    font-size: 7px;
   }
   .celebration-copy h2 {
     font-size: 68px;
