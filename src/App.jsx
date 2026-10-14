@@ -343,7 +343,8 @@ function App() {
               <span className="intro-date">15 · 11 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
             </div>
             <span className="intro-bottom-note">WITH THE BLESSINGS OF OUR FAMILIES</span>
-            <span className="intro-sound-note">TAP ANYWHERE TO HEAR THE FIREWORKS</span>
+            <span className="intro-sound-note intro-sound-note-desktop">TAP ANYWHERE TO HEAR THE FIREWORKS</span>
+            <span className="intro-sound-note intro-sound-note-mobile">DOUBLE TAP TO HEAR THE FIREWORKS</span>
           </div>
         )}
         <main>
@@ -384,7 +385,7 @@ function App() {
                 <span>Srihari</span>
               </h1>
               <p className="hero-subtitle">invite you to share in the joy of their wedding</p>
-              <button className="details-button" onClick={goToDetails}>
+              <button className="details-button" onClick={goToDetails} disabled={!["garlands", "names"].includes(openingPhase)}>
                 VIEW THE INVITATION{" "}
                 <span>
                   <ArrowIcon direction="down" />

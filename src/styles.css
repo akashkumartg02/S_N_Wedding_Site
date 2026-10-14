@@ -95,7 +95,6 @@ button {
     400 clamp(74px, 15vw, 138px)/0.95 "Cormorant Garamond",
     serif;
   letter-spacing: 0.02em;
-  text-shadow: 0 0 26px rgba(240, 195, 112, 0.32);
 }
 .intro-emblem p i {
   color: #e1bd70;
@@ -112,7 +111,6 @@ button {
   bottom: 42px;
   color: #e2cca1;
   font-size: 8px;
-  text-shadow: 0 1px 5px rgba(20, 8, 30, 0.8);
 }
 .intro-sound-note {
   position: absolute;
@@ -123,7 +121,9 @@ button {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-align: center;
-  text-shadow: 0 1px 5px rgba(20, 8, 30, 0.9);
+}
+.intro-sound-note-mobile {
+  display: none;
 }
 .intro-particles {
   position: absolute !important;
@@ -203,7 +203,6 @@ button {
   font-size: var(--petal-size);
   line-height: 1;
   opacity: 0;
-  text-shadow: 0 1px 5px rgba(89, 52, 27, 0.22);
   animation: petal-snow var(--fall-duration) linear var(--fall-delay) infinite;
   will-change: transform, opacity;
 }
@@ -239,25 +238,25 @@ button {
 }
 .monogram i,
 .footer-monogram i {
-  color: #2a1511;
+  color: #21100e;
   font-weight: 400;
 }
 .topbar-date {
   opacity: 0.78;
-  color: #2a1511;
+  color: #21100e;
 }
 .topbar-date span {
-  color: #2a1511;
+  color: #21100e;
   padding: 0 10px;
 }
 .topbar-link {
   text-decoration: none;
-  color: #2a1511;
-  border-bottom: 1px solid #2a1511;
+  color: #21100e;
+  border-bottom: 1px solid #21100e;
   padding-bottom: 6px;
 }
 .topbar-link span {
-  color: #2a1511;
+  color: #21100e;
   padding-left: 8px;
 }
 .side-thoranams {
@@ -394,7 +393,6 @@ button {
   transform: translate(-50%, 10px);
   opacity: 0;
   color: #fff1d9;
-  text-shadow: 0 1px 5px rgba(43, 20, 17, 0.9);
   white-space: nowrap;
 }
 .hero-blessing.is-revealed {
@@ -421,7 +419,6 @@ button {
   font-weight: 600;
   letter-spacing: 0.19em;
   text-transform: uppercase;
-  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 .eyebrow-rule {
   width: 32px;
@@ -436,7 +433,6 @@ button {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.82);
 }
 h1,
 h2 {
@@ -455,7 +451,6 @@ h2 {
   font-weight: 600;
   line-height: 0.9;
   letter-spacing: -0.045em;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.82);
 }
 .hero h1 .ampersand {
   font-size: 0.42em;
@@ -471,7 +466,6 @@ h2 {
     italic 600 19px "Cormorant Garamond",
     serif;
   letter-spacing: 0.045em;
-  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 .details-button,
 .directions-button {
@@ -509,7 +503,6 @@ h2 {
     serif;
   font-weight: 600;
   letter-spacing: 0.06em;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.82);
 }
 .hero-bottom {
   position: absolute;
@@ -524,7 +517,6 @@ h2 {
   font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.24em;
-  text-shadow: 0 1px 5px rgba(255, 248, 232, 0.96);
 }
 .hero-bottom i {
   width: 1px;
@@ -978,7 +970,9 @@ h2 {
   letter-spacing: 0.15em;
   opacity: 0;
   transform: translateY(-4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 .preview-hint .arrow-icon {
   width: 11px;
@@ -1074,7 +1068,9 @@ h2 {
   aspect-ratio: 1;
   border: 1px solid rgba(255, 243, 215, 0.48);
   border-radius: 50%;
-  box-shadow: 0 0 0 18px rgba(255, 243, 215, 0.08), 0 0 0 45px rgba(255, 243, 215, 0.06);
+  box-shadow:
+    0 0 0 18px rgba(255, 243, 215, 0.08),
+    0 0 0 45px rgba(255, 243, 215, 0.06);
 }
 .place-illustration svg {
   position: relative;
@@ -1105,7 +1101,6 @@ h2 {
   flex-direction: column;
   gap: 6px;
   color: #fff7e8;
-  text-shadow: 0 2px 12px #482b22;
 }
 .photo-caption span {
   font-size: 8px;
@@ -1170,7 +1165,9 @@ h2 {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-decoration: none;
-  transition: color 0.2s ease, background 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 .place-location-link:hover {
   color: #fff4df;
@@ -1199,8 +1196,12 @@ h2 {
   border-radius: 50%;
   color: #63372d;
   background: transparent;
-  font: 24px/1 "Cormorant Garamond", serif;
-  transition: color 0.2s ease, background 0.2s ease;
+  font:
+    24px/1 "Cormorant Garamond",
+    serif;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 .place-carousel-arrow:hover {
   color: #fff3df;
@@ -1218,7 +1219,9 @@ h2 {
   border: 0;
   border-radius: 8px;
   background: #bda77f;
-  transition: width 0.25s ease, background 0.25s ease;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
 }
 .place-carousel-dot.is-active {
   width: 23px;
@@ -1562,6 +1565,15 @@ h2 {
   }
 }
 @media (max-width: 700px) {
+  .intro-sound-note-desktop {
+    display: none;
+  }
+  .intro-sound-note-mobile {
+    display: block;
+    padding: 0 16px;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+  }
   .photo-lightbox {
     padding: 16px;
   }
@@ -1620,7 +1632,6 @@ h2 {
   .hero-bottom {
     color: #2e1a14;
     font-weight: 600;
-    text-shadow: 0 1px 5px rgba(255, 248, 232, 0.95);
   }
   .hero-blessing {
     top: 100px;
