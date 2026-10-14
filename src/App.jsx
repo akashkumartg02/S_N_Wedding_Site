@@ -21,6 +21,7 @@ const dindigulPlaces = [
     eyebrow: "A LANDMARK OF DINDIGUL",
     title: "Dindigul Fort",
     description: "A hilltop landmark that gives our wedding town its timeless silhouette.",
+    location: "https://maps.app.goo.gl/w8cx21CEzuNtT3CLA",
     image: "/dindigul-fort-temple.jpg",
     imageAlt: "The historic temple atop Dindigul Fort",
     caption: "Where tradition meets forever",
@@ -229,6 +230,8 @@ function App() {
   const musicRef = useRef(null);
   const fireworksSoundRef = useRef(null);
   const fireworksContainerRef = useRef(null);
+  const placeTouchStartRef = useRef(null);
+  const placeSwipeRef = useRef(false);
   const [fireworksReady, setFireworksReady] = useState(false);
   const [openingPhase, setOpeningPhase] = useState("crackers");
   const activePlace = dindigulPlaces[placeIndex];
@@ -327,6 +330,35 @@ function App() {
   }, [fireworksReady]);
 
   const goToDetails = () => document.getElementById("invitation-details")?.scrollIntoView({ behavior: "smooth" });
+
+  const handlePlaceTouchStart = (event) => {
+    const touch = event.touches[0];
+    if (touch) placeTouchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handlePlaceTouchEnd = (event) => {
+    const start = placeTouchStartRef.current;
+    const touch = event.changedTouches[0];
+    placeTouchStartRef.current = null;
+    if (!start || !touch) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+
+    placeSwipeRef.current = true;
+    window.setTimeout(() => {
+      placeSwipeRef.current = false;
+    }, 500);
+    setPlaceIndex((currentIndex) => (currentIndex + (deltaX < 0 ? 1 : dindigulPlaces.length - 1)) % dindigulPlaces.length);
+  };
+
+  const handlePlaceClickCapture = (event) => {
+    if (!placeSwipeRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    placeSwipeRef.current = false;
+  };
 
   return (
     <MotionConfig reducedMotion="user">
@@ -509,7 +541,7 @@ function App() {
             )}
           </section>
 
-          <section className="celebration" id="dindigul">
+          <section className="celebration" id="dindigul" onTouchStart={handlePlaceTouchStart} onTouchEnd={handlePlaceTouchEnd} onClickCapture={handlePlaceClickCapture}>
             <motion.div key={`image-${activePlace.id}`} className={`celebration-image place-slide place-slide-${activePlace.id}`} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}>
               {activePlace.image ? <img className="temple-photo" src={activePlace.image} alt={activePlace.imageAlt} /> : <PlaceIllustration type={activePlace.id} />}
               <div className="photo-caption">

@@ -1678,6 +1678,7 @@ h2 {
   }
   .celebration {
     grid-template-columns: 1fr;
+    touch-action: pan-y;
   }
   .celebration-image {
     min-height: 290px;
