@@ -186,44 +186,33 @@ function SideThoranam({ side, visible }) {
     >
       <svg viewBox="0 0 100 760" preserveAspectRatio="none" aria-hidden="true">
         <defs>
-          <linearGradient id={`leaf-${side}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#71834b" />
-            <stop offset="1" stopColor="#344a32" />
-          </linearGradient>
-          <radialGradient id={`marigold-${side}`}>
-            <stop offset="0" stopColor="#ffd878" />
-            <stop offset=".58" stopColor="#ec8b1f" />
-            <stop offset="1" stopColor="#b94716" />
-          </radialGradient>
           <linearGradient id={`bell-${side}`} x1="0" x2="1">
-            <stop offset="0" stopColor="#95652f" />
-            <stop offset=".45" stopColor="#f3d27a" />
-            <stop offset="1" stopColor="#9c682e" />
+            <stop offset="0" stopColor="#8f7045" />
+            <stop offset=".45" stopColor="#d7bb83" />
+            <stop offset="1" stopColor="#8f7045" />
           </linearGradient>
         </defs>
-        <path className="garland-cord" d="M50 0 C48 90 53 170 50 250 S48 405 50 505 S52 680 50 760" />
-        <path className="garland-shadow" d="M54 0 C52 90 57 170 54 250 S52 405 54 505 S56 680 54 760" />
-        {[55, 126, 198, 270, 342, 414, 486, 558, 630, 702].map((y, index) => {
-          const offset = index % 2 === 0 ? -1 : 1;
+        <path className="garland-cord" d="M50 0 C49 130 51 250 50 380 S49 640 50 760" />
+        {[52, 122, 192, 262, 332, 402, 472, 542, 612, 682].map((y, index) => {
+          const tilt = index % 2 === 0 ? -1 : 1;
           return (
-            <g className="garland-cluster" key={y} transform={`translate(${50 + offset * 3} ${y})`}>
-              <path className="mango-leaf" fill={`url(#leaf-${side})`} d="M-1 0 C-15-16-35-20-39-14 C-35 1-17 8-1 3 C-19 5-27 15-23 22 C-11 19-3 11 1 2 C4 12 13 21 24 20 C29 13 19 4 2 1 C18 8 36 3 39-9 C31-18 13-13 1-2Z" />
-              <path className="leaf-vein" d="M-35-13 Q0 0 36-8 M-20 19 Q0 4 21 18" />
-              <g className="marigold-bloom" style={{ fill: `url(#marigold-${side})` }} transform="translate(0 4)">
-                <circle r="12" />
-                <circle cx="-8" cy="-2" r="6" />
-                <circle cx="7" cy="-5" r="6" />
-                <circle cx="6" cy="7" r="6" />
-                <circle cx="-6" cy="8" r="5" />
-                <circle className="flower-heart" r="3" />
+            <g className="garland-cluster" key={y} transform={`translate(50 ${y}) rotate(${tilt * 5})`}>
+              <path className="mango-leaf" d="M-2 0 C-14-11-27-12-35-7 C-29 2-17 6-2 2 M2 0 C14-11 27-12 35-7 C29 2 17 6 2 2" />
+              <path className="leaf-vein" d="M-33-7 Q-17-2-2 2 M33-7 Q17-2 2 2" />
+              <circle className="garland-bead" cy="4" r="2.1" />
+              <g className="toranam-flower" transform="translate(0 13)">
+                {[0, 72, 144, 216, 288].map((angle) => (
+                  <ellipse key={angle} cx="0" cy="-4.2" rx="1.65" ry="3.4" transform={`rotate(${angle})`} />
+                ))}
+                <circle className="flower-heart" r="1.5" />
               </g>
             </g>
           );
         })}
-        <g className="toran-bell" transform="translate(50 748)">
-          <path d="M0-15v-7M-11-8h22l-3 16H-8Z" fill={`url(#bell-${side})`} />
-          <path d="M-14 8h28l-5 6h-18Z" fill={`url(#bell-${side})`} />
-          <circle cx="0" cy="20" r="3" />
+        <g className="toran-bell" transform="translate(50 742)">
+          <path d="M0-8v-7M-6-4h12L4 4H-4Z" fill={`url(#bell-${side})`} />
+          <path d="M-8 4h16l-3 4h-10Z" fill={`url(#bell-${side})`} />
+          <circle cy="13" r="1.8" />
         </g>
       </svg>
       <span className="thoranam-hint">DRAG</span>
@@ -432,7 +421,9 @@ function App() {
               <p className="date-note">A morning filled with blessings, music &amp; celebration</p>
               <div className="reception-date">
                 <span>RECEPTION · JOIN US IN THE EVENING</span>
-                <p>SATURDAY <b>14 · 11 · 2026</b></p>
+                <p>
+                  SATURDAY <b>14 · 11 · 2026</b>
+                </p>
                 <p className="reception-time">6:00–9:00 PM</p>
               </div>
             </motion.div>
@@ -458,8 +449,13 @@ function App() {
                     <span className="engagement-photo-space">
                       <img className="engagement-real-photo" src={image} alt="" loading="lazy" decoding="async" />
                     </span>
-                    <span className="engagement-photo-caption"><span>ENGAGEMENT MOMENT {number}</span><b>{caption}</b></span>
-                    <span className="preview-hint" aria-hidden="true">VIEW PHOTO <ArrowIcon /></span>
+                    <span className="engagement-photo-caption">
+                      <span>ENGAGEMENT MOMENT {number}</span>
+                      <b>{caption}</b>
+                    </span>
+                    <span className="preview-hint" aria-hidden="true">
+                      VIEW PHOTO <ArrowIcon />
+                    </span>
                   </button>
                 </motion.figure>
               ))}
@@ -467,7 +463,9 @@ function App() {
             {previewPhoto && (
               <div className="photo-lightbox" role="presentation" onClick={() => setPreviewPhoto(null)}>
                 <div className="photo-lightbox-panel" role="dialog" aria-modal="true" aria-label={`Engagement photo: ${previewPhoto.caption}`} onClick={(event) => event.stopPropagation()}>
-                  <button className="photo-lightbox-close" type="button" onClick={() => setPreviewPhoto(null)} aria-label="Close photo preview">×</button>
+                  <button className="photo-lightbox-close" type="button" onClick={() => setPreviewPhoto(null)} aria-label="Close photo preview">
+                    ×
+                  </button>
                   <img src={previewPhoto.image} alt={previewPhoto.alt} />
                   <p>{previewPhoto.caption}</p>
                 </div>
@@ -497,7 +495,8 @@ function App() {
             </motion.div>
             <motion.div key={`copy-${activePlace.id}`} className="celebration-copy" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}>
               <p className="eyebrow dark">
-                <span className="eyebrow-rule" />OUR DINDIGUL FAVOURITES
+                <span className="eyebrow-rule" />
+                OUR DINDIGUL FAVOURITES
               </p>
               <h2>
                 {activePlace.title.split(" ")[0]}
@@ -507,18 +506,27 @@ function App() {
               <p>{activePlace.description}</p>
               {activePlace.location && (
                 <a className="place-location-link" href={activePlace.location} target="_blank" rel="noreferrer">
-                  OPEN LOCATION <span aria-hidden="true"><ArrowIcon /></span>
+                  OPEN LOCATION{" "}
+                  <span aria-hidden="true">
+                    <ArrowIcon />
+                  </span>
                 </a>
               )}
               <div className="place-carousel-controls" aria-label="Dindigul highlights">
-                <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + dindigulPlaces.length - 1) % dindigulPlaces.length)} aria-label="Previous place">‹</button>
+                <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + dindigulPlaces.length - 1) % dindigulPlaces.length)} aria-label="Previous place">
+                  ‹
+                </button>
                 <div className="place-carousel-dots" role="group" aria-label="Choose a place">
                   {dindigulPlaces.map((place, index) => (
                     <button key={place.id} type="button" className={`place-carousel-dot${index === placeIndex ? " is-active" : ""}`} onClick={() => setPlaceIndex(index)} aria-label={`Show ${place.title}`} aria-pressed={index === placeIndex} />
                   ))}
                 </div>
-                <span className="place-carousel-count">{String(placeIndex + 1).padStart(2, "0")} / {String(dindigulPlaces.length).padStart(2, "0")}</span>
-                <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + 1) % dindigulPlaces.length)} aria-label="Next place">›</button>
+                <span className="place-carousel-count">
+                  {String(placeIndex + 1).padStart(2, "0")} / {String(dindigulPlaces.length).padStart(2, "0")}
+                </span>
+                <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + 1) % dindigulPlaces.length)} aria-label="Next place">
+                  ›
+                </button>
               </div>
             </motion.div>
           </section>
