@@ -106,6 +106,7 @@ function FireworksBackdrop({ onLoaded }) {
   const options = useMemo(
     () => ({
       preset: "fireworks",
+      sounds: { autoPlay: false },
       fullScreen: { enable: false },
       background: { color: "transparent" },
       fpsLimit: 45,
@@ -124,13 +125,7 @@ function FireworksBackdrop({ onLoaded }) {
 
   return (
     <ParticlesProvider init={initFireworks}>
-      <Particles
-        className="intro-particles"
-        id="wedding-fireworks"
-        options={options}
-        particlesLoaded={onLoaded}
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-      />
+      <Particles className="intro-particles" id="wedding-fireworks" options={options} particlesLoaded={onLoaded} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
     </ParticlesProvider>
   );
 }
@@ -233,6 +228,7 @@ function App() {
   const [placeIndex, setPlaceIndex] = useState(0);
   const musicRef = useRef(null);
   const fireworksSoundRef = useRef(null);
+  const fireworksContainerRef = useRef(null);
   const [fireworksReady, setFireworksReady] = useState(false);
   const [openingPhase, setOpeningPhase] = useState("crackers");
   const activePlace = dindigulPlaces[placeIndex];
@@ -274,22 +270,33 @@ function App() {
   };
 
   const markFireworksReady = useCallback((container) => {
-    fireworksSoundRef.current = container?.plugins.find(
-      (plugin) => typeof plugin.unmute === "function",
-    ) ?? null;
+    fireworksContainerRef.current = container ?? null;
+    fireworksSoundRef.current = container?.plugins.find((plugin) => typeof plugin.unmute === "function") ?? null;
     setFireworksReady(true);
+  }, []);
+
+  const unlockFireworksSound = useCallback(() => {
+    const audioContext = fireworksContainerRef.current?.audioContext;
+    if (audioContext?.state === "suspended") {
+      void audioContext.resume().catch(() => {});
+    }
+    void fireworksSoundRef.current?.unmute?.().catch(() => {});
   }, []);
 
   useEffect(() => {
     if (!fireworksReady || ["garlands", "names"].includes(openingPhase)) return undefined;
 
-    const unlockFireworksSound = () => {
-      void fireworksSoundRef.current?.unmute?.();
+    const enableSoundFromGesture = () => {
+      unlockFireworksSound();
     };
 
-    document.addEventListener("pointerdown", unlockFireworksSound, { capture: true, once: true });
-    return () => document.removeEventListener("pointerdown", unlockFireworksSound, { capture: true });
-  }, [fireworksReady, openingPhase]);
+    document.addEventListener("pointerdown", enableSoundFromGesture, { capture: true, passive: true });
+    document.addEventListener("touchstart", enableSoundFromGesture, { capture: true, passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", enableSoundFromGesture, true);
+      document.removeEventListener("touchstart", enableSoundFromGesture, true);
+    };
+  }, [fireworksReady, openingPhase, unlockFireworksSound]);
 
   const toggleBackgroundMusic = async () => {
     if (musicPlaying) {
@@ -305,15 +312,15 @@ function App() {
     const timings = window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ? [
           [300, "initials"],
-          [700, "exit"],
-          [750, "garlands"],
-          [850, "names"],
+          [2200, "exit"],
+          [2920, "garlands"],
+          [3320, "names"],
         ]
       : [
-          [980, "initials"],
-          [3600, "exit"],
-          [4320, "garlands"],
-          [5820, "names"],
+          [780, "initials"],
+          [3400, "exit"],
+          [4120, "garlands"],
+          [5620, "names"],
         ];
     const timers = timings.map(([delay, phase]) => window.setTimeout(() => setOpeningPhase(phase), delay));
     return () => timers.forEach(window.clearTimeout);
