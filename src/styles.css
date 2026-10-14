@@ -53,8 +53,8 @@ button {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: transparent;
-  color: var(--ink);
+  background: #6b292b;
+  color: #f5ead5;
   opacity: 1;
   transition:
     opacity 0.72s ease,
@@ -84,34 +84,46 @@ button {
 .intro-date,
 .intro-bottom-note {
   display: block;
-  color: #2a1511;
+  color: #f4e8d1;
   font-size: 8px;
   letter-spacing: 0.3em;
 }
 .intro-emblem p {
   margin: 18px 0 17px;
-  color: #4c2927;
+  color: #fff1d9;
   font:
-    400 clamp(74px, 15vw, 138px)/0.8 "Cormorant Garamond",
+    400 clamp(74px, 15vw, 138px)/0.95 "Cormorant Garamond",
     serif;
   letter-spacing: 0.02em;
-  text-shadow: 0 0 24px #d39e4b35;
+  text-shadow: 0 0 26px rgba(240, 195, 112, 0.32);
 }
 .intro-emblem p i {
-  color: #a57937;
+  color: #e1bd70;
   font-size: 0.48em;
   font-weight: 400;
 }
 .intro-date {
-  color: #2a1511;
+  color: #e6c989;
   font-size: 8px;
   letter-spacing: 0.2em;
 }
 .intro-bottom-note {
   position: absolute;
   bottom: 42px;
-  color: #967862;
-  font-size: 7px;
+  color: #e2cca1;
+  font-size: 8px;
+  text-shadow: 0 1px 5px rgba(20, 8, 30, 0.8);
+}
+.intro-sound-note {
+  position: absolute;
+  z-index: 1;
+  bottom: 76px;
+  color: #f5ead5;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-shadow: 0 1px 5px rgba(20, 8, 30, 0.9);
 }
 .intro-particles {
   position: absolute !important;
@@ -376,10 +388,14 @@ button {
   z-index: 3;
   top: 100px;
   left: 50%;
-  width: min(92%, 700px);
+  width: fit-content;
+  max-width: 94%;
   margin: 0;
   transform: translate(-50%, 10px);
   opacity: 0;
+  color: #fff1d9;
+  text-shadow: 0 1px 5px rgba(43, 20, 17, 0.9);
+  white-space: nowrap;
 }
 .hero-blessing.is-revealed {
   animation: blessing-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -405,7 +421,7 @@ button {
   font-weight: 600;
   letter-spacing: 0.19em;
   text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.72);
+  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 .eyebrow-rule {
   width: 32px;
@@ -420,7 +436,7 @@ button {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.72);
+  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 h1,
 h2 {
@@ -439,7 +455,7 @@ h2 {
   font-weight: 500;
   line-height: 0.9;
   letter-spacing: -0.045em;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.75);
+  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 .hero h1 .ampersand {
   font-size: 0.42em;
@@ -455,7 +471,7 @@ h2 {
     italic 19px "Cormorant Garamond",
     serif;
   letter-spacing: 0.045em;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.78);
+  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 .details-button,
 .directions-button {
@@ -493,7 +509,7 @@ h2 {
     serif;
   font-weight: 500;
   letter-spacing: 0.06em;
-  text-shadow: 0 1px 2px rgba(255, 247, 228, 0.78);
+  text-shadow: 0 1px 5px rgba(255, 247, 228, 0.96);
 }
 .hero-bottom {
   position: absolute;
@@ -504,9 +520,11 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  color: #4e3428;
+  color: #351e17;
   font-size: 8px;
+  font-weight: 600;
   letter-spacing: 0.24em;
+  text-shadow: 0 1px 5px rgba(255, 248, 232, 0.96);
 }
 .hero-bottom i {
   width: 1px;
@@ -1606,7 +1624,8 @@ h2 {
   }
   .hero-blessing {
     top: 100px;
-    width: 95%;
+    width: fit-content;
+    max-width: 95%;
     gap: 7px;
     font-size: 8px;
     letter-spacing: 0.14em;

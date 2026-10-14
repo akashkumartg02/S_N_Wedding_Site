@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import React from "react";
 import { MotionConfig, motion } from "motion/react";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
@@ -102,7 +102,7 @@ function ArrowIcon({ direction = "up-right", className = "" }) {
   );
 }
 
-function FireworksBackdrop() {
+function FireworksBackdrop({ onLoaded }) {
   const options = useMemo(
     () => ({
       preset: "fireworks",
@@ -124,7 +124,13 @@ function FireworksBackdrop() {
 
   return (
     <ParticlesProvider init={initFireworks}>
-      <Particles className="intro-particles" id="wedding-fireworks" options={options} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
+      <Particles
+        className="intro-particles"
+        id="wedding-fireworks"
+        options={options}
+        particlesLoaded={onLoaded}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+      />
     </ParticlesProvider>
   );
 }
@@ -226,6 +232,8 @@ function App() {
   const [previewPhoto, setPreviewPhoto] = useState(null);
   const [placeIndex, setPlaceIndex] = useState(0);
   const musicRef = useRef(null);
+  const fireworksSoundRef = useRef(null);
+  const [fireworksReady, setFireworksReady] = useState(false);
   const [openingPhase, setOpeningPhase] = useState("crackers");
   const activePlace = dindigulPlaces[placeIndex];
 
@@ -265,6 +273,24 @@ function App() {
     void startBackgroundMusic();
   };
 
+  const markFireworksReady = useCallback((container) => {
+    fireworksSoundRef.current = container?.plugins.find(
+      (plugin) => typeof plugin.unmute === "function",
+    ) ?? null;
+    setFireworksReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!fireworksReady || ["garlands", "names"].includes(openingPhase)) return undefined;
+
+    const unlockFireworksSound = () => {
+      void fireworksSoundRef.current?.unmute?.();
+    };
+
+    document.addEventListener("pointerdown", unlockFireworksSound, { capture: true, once: true });
+    return () => document.removeEventListener("pointerdown", unlockFireworksSound, { capture: true });
+  }, [fireworksReady, openingPhase]);
+
   const toggleBackgroundMusic = async () => {
     if (musicPlaying) {
       musicRef.current?.pause();
@@ -275,22 +301,23 @@ function App() {
   };
 
   useEffect(() => {
+    if (!fireworksReady) return undefined;
     const timings = window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ? [
-          [100, "initials"],
-          [500, "exit"],
-          [550, "garlands"],
-          [650, "names"],
+          [300, "initials"],
+          [700, "exit"],
+          [750, "garlands"],
+          [850, "names"],
         ]
       : [
-          [780, "initials"],
-          [3400, "exit"],
-          [4120, "garlands"],
-          [5620, "names"],
+          [980, "initials"],
+          [3600, "exit"],
+          [4320, "garlands"],
+          [5820, "names"],
         ];
     const timers = timings.map(([delay, phase]) => window.setTimeout(() => setOpeningPhase(phase), delay));
     return () => timers.forEach(window.clearTimeout);
-  }, []);
+  }, [fireworksReady]);
 
   const goToDetails = () => document.getElementById("invitation-details")?.scrollIntoView({ behavior: "smooth" });
 
@@ -300,7 +327,7 @@ function App() {
         <audio ref={musicRef} src="/wedding-music.mp3" preload="none" loop />
         {!["garlands", "names"].includes(openingPhase) && (
           <div className={`wedding-intro${openingPhase === "exit" ? " is-leaving" : ""}`} role="status" aria-live="polite">
-            <FireworksBackdrop />
+            <FireworksBackdrop onLoaded={markFireworksReady} />
             <div className={`intro-emblem${["initials", "exit"].includes(openingPhase) ? " is-shown" : ""}`}>
               <span className="intro-kicker">A CELEBRATION OF LOVE</span>
               <p>
@@ -309,6 +336,7 @@ function App() {
               <span className="intro-date">15 · 11 · 2026 &nbsp; · &nbsp; DINDIGUL</span>
             </div>
             <span className="intro-bottom-note">WITH THE BLESSINGS OF OUR FAMILIES</span>
+            <span className="intro-sound-note">TAP ANYWHERE TO HEAR THE FIREWORKS</span>
           </div>
         )}
         <main>
