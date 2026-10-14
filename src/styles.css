@@ -1189,6 +1189,9 @@ h2 {
   gap: 16px;
   margin-top: 34px;
 }
+.place-swipe-hint {
+  display: none;
+}
 .place-carousel-arrow {
   width: 36px;
   height: 36px;
@@ -1695,6 +1698,21 @@ h2 {
   }
   .place-carousel-controls {
     margin-top: 22px;
+  }
+  .place-swipe-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 24px 0 -12px;
+    color: #896638;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+  }
+  .place-swipe-hint span {
+    color: #a67a36;
+    font-size: 13px;
+    letter-spacing: 0;
   }
   .celebration-copy h2 {
     font-size: 68px;

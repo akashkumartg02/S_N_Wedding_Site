@@ -580,6 +580,9 @@ function App() {
                   </span>
                 </a>
               )}
+              <p className="place-swipe-hint">
+                <span aria-hidden="true">←</span> SWIPE TO EXPLORE <span aria-hidden="true">→</span>
+              </p>
               <div className="place-carousel-controls" aria-label="Dindigul highlights">
                 <button type="button" className="place-carousel-arrow" onClick={() => setPlaceIndex((placeIndex + dindigulPlaces.length - 1) % dindigulPlaces.length)} aria-label="Previous place">
                   ‹
