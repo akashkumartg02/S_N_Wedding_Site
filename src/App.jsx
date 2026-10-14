@@ -30,9 +30,11 @@ const dindigulPlaces = [
     id: "biryani",
     eyebrow: "A TASTE OF DINDIGUL",
     title: "Siva Biryani",
-    description: "A biryani stop to add to your time in Dindigul.",
+    description: "Try Dindigul-style Seeraga Samba biryani during your stay.",
     location: "https://share.google/bu0zEFhCVQCMWCF7",
-    caption: "A flavourful local stop",
+    image: "/seeraga-samba-biryani.jpg",
+    imageAlt: "Dindigul-style Seeraga Samba biryani served with raita",
+    caption: "SEERAGA SAMBA BIRYANI",
   },
   {
     id: "parotta",
@@ -40,6 +42,8 @@ const dindigulPlaces = [
     title: "Parotta Shop",
     description: "Make room for a parotta stop while you explore the city.",
     location: "https://share.google/mEQTfjy0z5t19wFpH",
+    image: "/parotta-meal.jpg",
+    imageAlt: "Golden layered South Indian parottas served with curry",
     caption: "A classic comfort bite",
   },
 ];
@@ -444,18 +448,18 @@ function App() {
             </motion.div>
             <div className="engagement-grid">
               {[
-                { number: "01", shape: "photo-tall", image: "/engagement-01.jpg", alt: "Nivetha and Srihari sharing a quiet moment together", caption: "A QUIET MOMENT" },
-                { number: "02", shape: "photo-square", image: "/engagement-02.jpg", alt: "Close-up of Nivetha and Srihari's hands and engagement rings", caption: "A PROMISE FOREVER" },
-                { number: "03", shape: "photo-square", image: "/engagement-03.jpg", alt: "Srihari placing a ring on Nivetha's hand as family members watch", caption: "THE RING CEREMONY" },
-                { number: "04", shape: "photo-wide", image: "/engagement-04.jpg", alt: "Nivetha and Srihari walking hand in hand beside a temple pond", caption: "A WALK TOGETHER" },
-              ].map(({ number, shape, image, alt, caption }, index) => (
-                <motion.figure className={`engagement-photo ${shape}`} key={number} initial={{ opacity: 0, y: 32, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.72, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
+                { number: "01", image: "/engagement-01.jpg", alt: "Nivetha and Srihari seated together in their engagement attire", caption: "THE ENGAGEMENT PORTRAIT" },
+                { number: "02", image: "/engagement-02.jpg", alt: "Nivetha and Srihari's hands holding their engagement rings", caption: "A PROMISE FOREVER" },
+                { number: "03", image: "/engagement-03.jpg", alt: "Nivetha and Srihari exchanging rings in a close-up", caption: "THE RING EXCHANGE" },
+                { number: "04", image: "/engagement-04.jpg", alt: "Nivetha and Srihari walking hand in hand beside a temple pond", caption: "A WALK TOGETHER" },
+              ].map(({ number, image, alt, caption }, index) => (
+                <motion.figure className="engagement-photo" key={number} initial={{ opacity: 0, y: 32, scale: 0.98 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.72, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
                   <button className="engagement-preview-trigger" type="button" onClick={() => setPreviewPhoto({ image, alt, caption, number })} aria-label={`Preview photo: ${caption}`}>
                     <span className="engagement-photo-space">
                       <img className="engagement-real-photo" src={image} alt="" loading="lazy" decoding="async" />
                     </span>
                     <span className="engagement-photo-caption"><span>ENGAGEMENT MOMENT {number}</span><b>{caption}</b></span>
-                    <span className="preview-hint" aria-hidden="true">VIEW PHOTO ↗</span>
+                    <span className="preview-hint" aria-hidden="true">VIEW PHOTO <ArrowIcon /></span>
                   </button>
                 </motion.figure>
               ))}
@@ -503,7 +507,7 @@ function App() {
               <p>{activePlace.description}</p>
               {activePlace.location && (
                 <a className="place-location-link" href={activePlace.location} target="_blank" rel="noreferrer">
-                  OPEN LOCATION <span aria-hidden="true">↗</span>
+                  OPEN LOCATION <span aria-hidden="true"><ArrowIcon /></span>
                 </a>
               )}
               <div className="place-carousel-controls" aria-label="Dindigul highlights">
@@ -582,9 +586,6 @@ function App() {
             <p className="footer-thanks">With love &amp; gratitude</p>
           </motion.footer>
         </main>
-        <a className="registry-float" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
-          GIFT REGISTRY <span aria-hidden="true"><ArrowIcon /></span>
-        </a>
       </>
     </MotionConfig>
   );
