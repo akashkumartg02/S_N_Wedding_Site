@@ -312,24 +312,17 @@ function App() {
 
   useEffect(() => {
     if (!fireworksReady) return undefined;
-    const timings = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ? [
-          [300, "initials"],
-          [2200, "exit"],
-          [2920, "garlands"],
-          [3320, "names"],
-        ]
-      : [
-          [780, "initials"],
-          [3400, "exit"],
-          [4120, "garlands"],
-          [5620, "names"],
-        ];
+    const timings = [
+      [300, "initials"],
+      [2200, "exit"],
+      [2920, "garlands"],
+      [3320, "names"],
+    ];
     const timers = timings.map(([delay, phase]) => window.setTimeout(() => setOpeningPhase(phase), delay));
     return () => timers.forEach(window.clearTimeout);
   }, [fireworksReady]);
 
-  const goToDetails = () => document.getElementById("invitation-details")?.scrollIntoView({ behavior: "smooth" });
+  const goToDetails = () => document.getElementById("invitation-details")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   const handlePlaceTouchStart = (event) => {
     const touch = event.touches[0];
@@ -541,6 +534,25 @@ function App() {
             )}
           </section>
 
+          <section className="gift-registry section-shell" id="gifts">
+            <motion.div className="gift-content" {...revealUp}>
+              <span className="gift-flower" aria-hidden="true">
+                ✿
+              </span>
+              <p className="date-kicker">A TOKEN OF YOUR LOVE</p>
+              <h2>
+                Gifts from <em>the heart</em>
+              </h2>
+              <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
+              <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
+                VISIT OUR GIFT REGISTRY{" "}
+                <span>
+                  <ArrowIcon />
+                </span>
+              </a>
+            </motion.div>
+          </section>
+
           <section className="celebration" id="dindigul" onTouchStart={handlePlaceTouchStart} onTouchEnd={handlePlaceTouchEnd} onClickCapture={handlePlaceClickCapture}>
             <motion.div key={`image-${activePlace.id}`} className={`celebration-image place-slide place-slide-${activePlace.id}`} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}>
               {activePlace.image ? <img className="temple-photo" src={activePlace.image} alt={activePlace.imageAlt} /> : <PlaceIllustration type={activePlace.id} />}
@@ -599,25 +611,6 @@ function App() {
                   ›
                 </button>
               </div>
-            </motion.div>
-          </section>
-
-          <section className="gift-registry section-shell" id="gifts">
-            <motion.div className="gift-content" {...revealUp}>
-              <span className="gift-flower" aria-hidden="true">
-                ✿
-              </span>
-              <p className="date-kicker">A TOKEN OF YOUR LOVE</p>
-              <h2>
-                Gifts from <em>the heart</em>
-              </h2>
-              <p>Your presence is the greatest gift. If you wish to bless us with something special, our gift registry is here.</p>
-              <a className="registry-button" href="https://www.gokiki.in/registry/sri-nivis-wedding-1-19ia/" target="_blank" rel="noreferrer">
-                VISIT OUR GIFT REGISTRY{" "}
-                <span>
-                  <ArrowIcon />
-                </span>
-              </a>
             </motion.div>
           </section>
 

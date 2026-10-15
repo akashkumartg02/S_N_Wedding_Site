@@ -5,7 +5,7 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #442624;
+  --ink: var(--ink);
   --wine: #6d252b;
   --gold: #a67a36;
   --paper: #f7f0e4;
@@ -84,7 +84,7 @@ button {
 .intro-date,
 .intro-bottom-note {
   display: block;
-  color: #f4e8d1;
+  color: var(--ink);
   font-size: 8px;
   letter-spacing: 0.3em;
 }
@@ -238,25 +238,25 @@ button {
 }
 .monogram i,
 .footer-monogram i {
-  color: #21100e;
+  color: var(--ink);
   font-weight: 400;
 }
 .topbar-date {
   opacity: 0.78;
-  color: #21100e;
+  color: var(--ink);
 }
 .topbar-date span {
-  color: #21100e;
+  color: var(--ink);
   padding: 0 10px;
 }
 .topbar-link {
   text-decoration: none;
-  color: #21100e;
-  border-bottom: 1px solid #21100e;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
   padding-bottom: 6px;
 }
 .topbar-link span {
-  color: #21100e;
+  color: var(--ink);
   padding-left: 8px;
 }
 .side-thoranams {
@@ -446,7 +446,7 @@ h2 {
   justify-content: center;
   align-items: baseline;
   gap: 0.12em;
-  color: #21100e;
+  color: var(--ink);
   font-size: clamp(58px, 9.1vw, 112px);
   font-weight: 600;
   line-height: 0.9;
@@ -1659,12 +1659,49 @@ h2 {
   .section-shell {
     padding: 82px 22px;
   }
+  .invitation.section-shell {
+    padding: 32px 22px 38px;
+  }
+  .engagement.section-shell {
+    padding: 48px 22px 54px;
+  }
+  .engagement-heading h2 {
+    margin-top: 10px;
+  }
+  .engagement-caption {
+    margin-top: 10px;
+  }
+  .engagement-grid {
+    margin-top: 24px;
+  }
   .invitation-copy {
+    margin: 16px auto 8px;
     font-size: 18px;
   }
+  .invitation .divider {
+    margin: 10px auto;
+  }
   .date-card {
-    margin-top: 37px;
-    padding: 40px 23px 32px;
+    margin-top: 20px;
+    padding: 28px 20px 20px;
+  }
+  .date-card .weekday {
+    margin-top: 14px;
+  }
+  .date-card .date-display {
+    min-height: 160px;
+    gap: 14px;
+  }
+  .date-card .date-reveal-control {
+    width: 136px;
+    height: 136px;
+    flex-basis: 136px;
+  }
+  .date-card .date-note {
+    margin-top: 8px;
+  }
+  .date-card .reception-date {
+    margin-top: 14px;
   }
   .date-display .day {
     font-size: 94px;
