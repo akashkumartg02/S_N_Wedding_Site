@@ -511,7 +511,7 @@ function App() {
                       <img className="engagement-real-photo" src={image} alt="" loading="lazy" decoding="async" />
                     </span>
                     <span className="engagement-photo-caption">
-                      <span>ENGAGEMENT MOMENT {number}</span>
+                      {/* <span>ENGAGEMENT MOMENT {number}</span> */}
                       <b>{caption}</b>
                     </span>
                     <span className="preview-hint" aria-hidden="true">
